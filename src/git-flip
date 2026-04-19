@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+set -euo pipefail
+old="$(git rev-parse HEAD)"
+git reset --soft HEAD^1
+git commit --no-edit --amend
+PAGER= git show --format= --stat HEAD
+git revert --no-commit "$old"
+git commit --no-edit -C "$old"
+PAGER= git show --format= --stat HEAD
+exit 1
