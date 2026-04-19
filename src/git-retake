@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+set -euo pipefail
+export PAGER=
+old="$(git rev-parse HEAD)"
+git reset --hard HEAD^1
+git cherry-pick --no-commit "$old"
+git reset .
+git diff --stat
