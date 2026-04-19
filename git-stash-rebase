@@ -107,6 +107,13 @@ gsr_abort() {
     ref="$(get_ref "refs/stash")"
 
     if [[ "$ref" != "" ]]; then
+        if [[ "$(git rev-parse "refs/stash^2")" != "$(git rev-parse "$ref")" ]]; then
+            echo "git-stash-rebase: Branch $ref has changed, not updating" >&2
+            ref=""
+        fi
+    fi
+
+    if [[ "$ref" != "" ]]; then
         git switch "$ref"
     else
         git switch --detach "refs/stash^2"
